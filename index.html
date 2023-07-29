@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raj Web App</title>
+    <!-- Link the web app manifest file -->
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <h1>Welcome to Raj Web App</h1>
+    <p>This is a simple web app that you can install on your device!</p>
+
+    <!-- Add your web app content here -->
+
+    <script>
+        // Check if the web app is running in standalone mode
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            console.log('Web app is installed and running in standalone mode.');
+        } else {
+            console.log('Web app is running in browser mode.');
+            // Display a button to install the web app on Chrome
+            const installButton = document.createElement('button');
+            installButton.textContent = 'Install App';
+            installButton.addEventListener('click', () => {
+                // Show the install prompt
+                const deferredPrompt = window.promptEvent;
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then(choiceResult => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt.');
+                        } else {
+                            console.log('User dismissed the install prompt.');
+                        }
+                        // Clear the prompt event so it doesn't trigger again
+                        window.promptEvent = null;
+                    });
+                }
+            });
+
+            // Listen for the "beforeinstallprompt" event
+            window.addEventListener('beforeinstallprompt', event => {
+                // Prevent Chrome's default "Add to Home screen" prompt
+                event.preventDefault();
+                // Store the event for later use
+                window.promptEvent = event;
+                // Display the install button
+                document.body.appendChild(installButton);
+            });
+        }
+    </script>
+</body>
+</html>
