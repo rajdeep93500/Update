@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ID Card</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+    }
+
+    #id-card {
+      width: 300px;
+      height: 200px;
+      border: 1px solid #000;
+      padding: 10px;
+      margin: 50px auto;
+      text-align: center;
+      background-color: #fff;
+      background-image: url('1.png'); /* Default background image */
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #photo {
+      width: 100px;
+      height: 100px;
+      border: 1px solid #000;
+      margin: 0 auto;
+      margin-bottom: 10px;
+      background-image: url('default_photo.png'); /* Default photo image */
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    #signature {
+      width: 150px;
+      height: 50px;
+      border: 1px solid #000;
+      margin: 10px auto;
+      background-image: url('default_signature.png'); /* Default signature image */
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    #details {
+      margin-top: 20px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .upload-btn {
+      background-color: #008CBA;
+    }
+  </style>
+</head>
+<body>
+  <div id="id-card">
+    <div id="photo"></div>
+    <div id="name">John Doe</div>
+    <div id="age">30 years</div>
+    <div id="gender">Male</div>
+    <div id="signature"></div>
+    <div id="details">
+      <button onclick="editName()">Edit Name</button>
+      <button onclick="editAge()">Edit Age</button>
+      <button onclick="editGender()">Edit Gender</button>
+    </div>
+  </div>
+  <div>
+    <label for="photo-upload" class="upload-btn button">Upload Photo</label>
+    <label for="signature-upload" class="upload-btn button">Upload Signature</label>
+    <label for="background-image-upload" class="upload-btn button">Upload Background Image</label>
+    <input type="file" id="photo-upload" accept="image/*" onchange="handlePhotoUpload()" />
+    <input type="file" id="signature-upload" accept="image/*" onchange="handleSignatureUpload()" />
+    <input type="file" id="background-image-upload" accept="image/*" onchange="handleBackgroundImageUpload()" />
+  </div>
+  <button onclick="captureScreenshot()">Capture Screenshot</button>
+  <button onclick="saveAndDownload()">Save and Download</button>
+
+  <!-- Include the html2canvas library -->
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+  <script>
+    function updateDetails() {
+      const name = document.getElementById('name');
+      const age = document.getElementById('age');
+      const gender = document.getElementById('gender');
+
+      // Update details with user input (you can use prompt or any other input method)
+      const newName = prompt('Enter new name:', name.textContent);
+      if (newName !== null && newName !== '') {
+        name.textContent = newName;
+      }
+
+      const newAge = prompt('Enter new age:', age.textContent);
+      if (newAge !== null && newAge !== '') {
+        age.textContent = newAge;
+      }
+
+      const newGender = prompt('Enter new gender:', gender.textContent);
+      if (newGender !== null && newGender !== '') {
+        gender.textContent = newGender;
+      }
+    }
+
+    function editName() {
+      const name = document.getElementById('name');
+      const newName = prompt('Enter new name:', name.textContent);
+      if (newName !== null && newName !== '') {
+        name.textContent = newName;
+      }
+    }
+
+    function editAge() {
+      const age = document.getElementById('age');
+      const newAge = prompt('Enter new age:', age.textContent);
+      if (newAge !== null && newAge !== '') {
+        age.textContent = newAge;
+      }
+    }
+
+    function editGender() {
+      const gender = document.getElementById('gender');
+      const newGender = prompt('Enter new gender:', gender.textContent);
+      if (newGender !== null && newGender !== '') {
+        gender.textContent = newGender;
+      }
+    }
+
+    function handlePhotoUpload() {
+      const photoElement = document.getElementById('photo');
+      const file = document.getElementById('photo-upload').files[0];
+      const reader = new FileReader();
+
+      reader.onloadend = function() {
+        photoElement.style.backgroundImage = `url(${reader.result})`;
+      }
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function handleSignatureUpload() {
+      const signatureElement = document.getElementById('signature');
+      const file = document.getElementById('signature-upload').files[0];
+      const reader = new FileReader();
+
+      reader.onloadend = function() {
+        signatureElement.style.backgroundImage = `url(${reader.result})`;
+      }
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function handleBackgroundImageUpload() {
+      const cardElement = document.getElementById('id-card');
+      const file = document.getElementById('background-image-upload').files[0];
+      const reader = new FileReader();
+
+      reader.onloadend = function() {
+        cardElement.style.backgroundImage = `url(${reader.result})`;
+      }
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function captureScreenshot() {
+      const cardElement = document.getElementById('id-card');
+
+      // Use html2canvas library to capture the screenshot with scale option set to 4
+      html2canvas(cardElement, { scale: 4 }).then(function(canvas) {
+        // Open the screenshot in a new tab (optional)
+        const screenshotWindow = window.open();
+        screenshotWindow.document.write('<img src="' + canvas.toDataURL() + '" />');
+      });
+    }
+
+    function saveAndDownload() {
+      const cardElement = document.getElementById('id-card');
+
+      // Use html2canvas library to capture the screenshot with scale option set to 4
+      html2canvas(cardElement, { scale: 4 }).then(function(canvas) {
+        // Create a temporary link to download the image
+        const link = document.createElement('a');
+        link.download = 'id_card_screenshot.png';
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+  </script>
+</body>
+</html>
