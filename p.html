@@ -19,7 +19,7 @@
       border: 1px solid #000;
       margin: 0 auto;
       margin-bottom: 10px;
-      background-image: url('default_photo.png'); /* Default photo */
+      background-image: url('default_photo.png'); /* Default photo image */
       background-size: cover;
     }
     #signature {
@@ -27,7 +27,7 @@
       height: 50px;
       border: 1px solid #000;
       margin: 10px auto;
-      background-image: url('default_signature.png'); /* Default signature */
+      background-image: url('default_signature.png'); /* Default signature image */
       background-size: cover;
     }
     #details {
@@ -46,10 +46,12 @@
       <button onclick="editName()">Edit Name</button>
       <button onclick="editAge()">Edit Age</button>
       <button onclick="editGender()">Edit Gender</button>
-      <button onclick="updatePhoto()">Update Photo</button>
-      <button onclick="updateSignature()">Update Signature</button>
-      <button onclick="updateBackground()">Update Background</button>
     </div>
+  </div>
+  <div>
+    <input type="file" id="photo-upload" accept="image/*" onchange="handlePhotoUpload()" />
+    <input type="file" id="signature-upload" accept="image/*" onchange="handleSignatureUpload()" />
+    <input type="file" id="background-image-upload" accept="image/*" onchange="handleBackgroundImageUpload()" />
   </div>
   <button onclick="captureScreenshot()">Capture Screenshot</button>
 
@@ -103,27 +105,45 @@
       }
     }
 
-    function updatePhoto() {
-      const photo = document.getElementById('photo');
-      const newPhotoUrl = prompt('Enter URL for new photo:');
-      if (newPhotoUrl !== null && newPhotoUrl !== '') {
-        photo.style.backgroundImage = `url(${newPhotoUrl})`;
+    function handlePhotoUpload() {
+      const photoElement = document.getElementById('photo');
+      const file = document.getElementById('photo-upload').files[0];
+      const reader = new FileReader();
+
+      reader.onloadend = function() {
+        photoElement.style.backgroundImage = `url(${reader.result})`;
+      }
+
+      if (file) {
+        reader.readAsDataURL(file);
       }
     }
 
-    function updateSignature() {
-      const signature = document.getElementById('signature');
-      const newSignatureUrl = prompt('Enter URL for new signature:');
-      if (newSignatureUrl !== null && newSignatureUrl !== '') {
-        signature.style.backgroundImage = `url(${newSignatureUrl})`;
+    function handleSignatureUpload() {
+      const signatureElement = document.getElementById('signature');
+      const file = document.getElementById('signature-upload').files[0];
+      const reader = new FileReader();
+
+      reader.onloadend = function() {
+        signatureElement.style.backgroundImage = `url(${reader.result})`;
+      }
+
+      if (file) {
+        reader.readAsDataURL(file);
       }
     }
 
-    function updateBackground() {
-      const idCard = document.getElementById('id-card');
-      const newBackgroundUrl = prompt('Enter URL for new background:');
-      if (newBackgroundUrl !== null && newBackgroundUrl !== '') {
-        idCard.style.backgroundImage = `url(${newBackgroundUrl})`;
+    function handleBackgroundImageUpload() {
+      const cardElement = document.getElementById('id-card');
+      const file = document.getElementById('background-image-upload').files[0];
+      const reader = new FileReader();
+
+      reader.onloadend = function() {
+        cardElement.style.backgroundImage = `url(${reader.result})`;
+      }
+
+      if (file) {
+        reader.readAsDataURL(file);
       }
     }
 
