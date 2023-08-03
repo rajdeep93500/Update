@@ -10,6 +10,8 @@
       padding: 10px;
       margin: 50px auto;
       text-align: center;
+      background-image: url('1.png');
+      background-size: cover;
     }
     #photo {
       width: 100px;
@@ -17,6 +19,15 @@
       border: 1px solid #000;
       margin: 0 auto;
       margin-bottom: 10px;
+    }
+    #signature {
+      width: 150px;
+      height: 50px;
+      border: 1px solid #000;
+      margin: 10px auto;
+    }
+    #details {
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -26,7 +37,12 @@
     <div id="name">John Doe</div>
     <div id="age">30 years</div>
     <div id="gender">Male</div>
-    <div id="signature">Signature</div>
+    <div id="signature"></div>
+    <div id="details">
+      <button onclick="editName()">Edit Name</button>
+      <button onclick="editAge()">Edit Age</button>
+      <button onclick="editGender()">Edit Gender</button>
+    </div>
   </div>
   <button onclick="captureScreenshot()">Capture Screenshot</button>
 
@@ -34,6 +50,52 @@
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
   <script>
+    function updateDetails() {
+      const name = document.getElementById('name');
+      const age = document.getElementById('age');
+      const gender = document.getElementById('gender');
+
+      // Update details with user input (you can use prompt or any other input method)
+      const newName = prompt('Enter new name:', name.textContent);
+      if (newName !== null && newName !== '') {
+        name.textContent = newName;
+      }
+
+      const newAge = prompt('Enter new age:', age.textContent);
+      if (newAge !== null && newAge !== '') {
+        age.textContent = newAge;
+      }
+
+      const newGender = prompt('Enter new gender:', gender.textContent);
+      if (newGender !== null && newGender !== '') {
+        gender.textContent = newGender;
+      }
+    }
+
+    function editName() {
+      const name = document.getElementById('name');
+      const newName = prompt('Enter new name:', name.textContent);
+      if (newName !== null && newName !== '') {
+        name.textContent = newName;
+      }
+    }
+
+    function editAge() {
+      const age = document.getElementById('age');
+      const newAge = prompt('Enter new age:', age.textContent);
+      if (newAge !== null && newAge !== '') {
+        age.textContent = newAge;
+      }
+    }
+
+    function editGender() {
+      const gender = document.getElementById('gender');
+      const newGender = prompt('Enter new gender:', gender.textContent);
+      if (newGender !== null && newGender !== '') {
+        gender.textContent = newGender;
+      }
+    }
+
     function captureScreenshot() {
       const cardElement = document.getElementById('id-card');
 
@@ -48,5 +110,4 @@
     }
   </script>
 </body>
-  </html>
-  
+</html>
